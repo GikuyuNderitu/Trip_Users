@@ -21,7 +21,7 @@
 				<div id="session-section">
 					{% if 'id' in request.session %}
 					<span id="greeting" class="">Welcome, {{request.session.first_name}}</span>
-					<a class="session-button" href="/logout">Logout</a>
+					<a class="session-button" href="{% url 'login:logout' %}">Logout</a>
 					{% else %}
 					<span id="greeting" class="">Welcome! Please feel free to </span>
 					<a href="#login-modal" class="session-button">Login</a>

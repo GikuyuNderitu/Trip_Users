@@ -4,7 +4,7 @@ import bcrypt
 from django.db import models
 
 NAME_REGEX = re.compile(r'^[a-zA-Z]{3,}$')
-PASSWORD_REGEX = re.compile(r'^[a-zA-Z.#!?$+=*]{8,255}')
+PASSWORD_REGEX = re.compile(r'^[a-zA-Z0-9.#!?$\+=*]{8,255}')
 
 # Create your models here.
 class UserManager(models.Manager):
