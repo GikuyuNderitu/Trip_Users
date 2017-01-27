@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Users</title>
+		{% load staticfiles %}
+		<link rel="stylesheet" href="{%static 'login/css/materialize.css' %}">
+		<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	</head>
+	<body>
+		<div id="container">
+			<header class="teal-border border-bottom">
+				<h1>Trip Tumult!</h1>
+				<div id="session-section">
+					{% if 'id' in request.session %}
+					<span id="greeting" class="">Welcome, {{request.session.first_name}}</span>
+					<a class="session-button" href="{% url 'travel:index' %}">Home</a>
+					<a class="session-button teal-border" href="{% url 'login:logout' %}">Logout</a>
+					{% else %}
+					<span id="greeting" class="">Welcome! Please feel free to </span>
+					<a href="#login-modal" class="session-button teal-border">Login</a>
+					<a href="#register-modal" class="session-button teal-border">Register</a>
+					{% endif %}
+				</div>
+			</header>
+			<main>
+				<h3 class='teal-text'>Add a Trip</h3>
+				<div class="row valign-wrapper">
+					<form id="trip-form" class="col s6" method="post">
+						{% csrf_token %}
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="name" name="destination" type="text" >
+								<label for="name">Destination</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="username" type="text" name="description">
+								<label for="username">Description</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<input id="travel-from" name="travel_from" type="date" class="datepicker">
+								<label for="travel-from">Travel From</label>
+							</div>
+							<div class="input-field col s6">
+								<input id="travel-to" name="travel_to" type="date" class="datepicker">
+								<label for="travel-to">Travel To</label>
+							</div>
+						</div>
+						<button type="submit" form='trip-form' formaction="{% url 'travel:create' id=request.session.id %}" class="modal-action modal-close waves-effect waves-green btn-flat teal-text teal-border right">Add Trip</button>
+					</form>
+					<div class="col s6 valign space-between">
+						{% if messages %}
+						{% for message in messages %}
+						<p class="flash-message {{message.tags}}">{{message}}</p>
+						{% endfor %}
+						{% endif%}
+					</div>
+				</div>
+
+			</main>
+		</div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'login/js/materialize.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'login/js/app.js' %}">
+
+		</script>
+	</body>
+</html>

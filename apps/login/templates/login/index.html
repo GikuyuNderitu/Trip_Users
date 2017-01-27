@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sign Up Or Login</title>
+		{% load staticfiles %}
+		<link rel="stylesheet" href="{%static 'login/css/materialize.css' %}">
+		<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	</head>
+	<body>
+		<div id="container">
+			<header class="teal-border border-bottom">
+				<h1>Trip Tumult!</h1>
+			</header>
+			<main>
+				{% if messages %}
+				{% for message in messages %}
+				<p class="flash-message red">{{message}}</p>
+				{% endfor %}
+				{% endif%}
+				<div id="session-section">
+					{% if 'id' in request.session %}
+					<span id="greeting" class="">Welcome, {{request.session.first_name}}</span>
+					<a class="session-button" href="/logout">Logout</a>
+					{% else %}
+					<span id="greeting" class="">Welcome! Please feel free to </span>
+					<a href="#login-modal" class="session-button">Login</a>
+					<a href="#register-modal" class="session-button">Register</a>
+					{% endif %}
+				</div>
+				<div id="login-modal" class="modal modal-fixed-footer">
+					<div class="modal-content">
+						<h4 class="teal-text">Login</h4>
+						<div class="row">
+							<form id="login-form" class="col s12" action="{% url 'login:login' %}" method="post">
+								{% csrf_token %}
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="login-username" name="username" type="text">
+										<label for="login-username">Username</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="login-password" name="password" type="password" class="validate">
+										<label for="login-password">Password</label>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button form="login-form" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Login</button>
+					</div>
+				</div>
+				<div id="register-modal" class="modal modal-fixed-footer">
+					<div class="modal-content">
+						<h4 class="teal-text">Register</h4>
+						<div class="row">
+							<form id="register-form" class="col s12" action="{% url 'login:register' %}" method="post">
+								{% csrf_token %}
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="name" name="name" type="text" >
+										<label for="name">Name</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="username" type="text" name="username">
+										<label for="username">Username</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s6">
+										<input id="password" name="password" type="password" >
+										<label for="password">Password</label>
+									</div>
+									<div class="input-field col s6">
+										<input id="confirmation" name="confirmation" type="password" >
+										<label for="confirmation">Password Confirmation</label>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button form="register-form" formaction="{% url 'login:register' %}" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Register</button>
+					</div>
+				</div>
+			</main>
+		</div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'login/js/materialize.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'login/js/app.js' %}">
+
+		</script>
+	</body>
+</html>

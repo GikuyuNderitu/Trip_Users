@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Travel Time</title>
+		{% load staticfiles %}
+		<link rel="stylesheet" href="{%static 'login/css/materialize.css' %}">
+		<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	</head>
+	<body>
+		<div id="container">
+			<header class="teal-border border-bottom">
+				<h1>Trip Tumult!</h1>
+				<div id="session-section">
+					{% if 'id' in request.session %}
+					<span id="greeting" class="">Welcome, {{request.session.first_name}}</span>
+					<a class="session-button" href="{% url 'travel:index' %}">Home</a>
+					<a class="session-button" href="{% url 'login:logout' %}">Logout</a>
+					{% else %}
+					<span id="greeting" class="">Welcome! Please feel free to </span>
+					<a href="#login-modal" class="session-button">Login</a>
+					<a href="#register-modal" class="session-button">Register</a>
+					{% endif %}
+				</div>
+			</header>
+			<main>
+				{% if messages %}
+				{% for message in messages %}
+				<p class="flash-message green">{{message}}</p>
+				{% endfor %}
+				{% endif%}
+				<h3 class="table-head">Your Trip Schedules</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Destination</th>
+							<th>Travel Start Date</th>
+							<th>Travel End Date</th>
+							<th>Travel Plan</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for trip in user_trips %}
+						<tr>
+							<td> <a class="route route-destination" href="{% url 'travel:show_trip' id=trip.trip.id %}">{{trip.trip.destination}}</a></td>
+							<td>{{trip.trip.travel_from}}</td>
+							<td>{{trip.trip.travel_to}}</td>
+							<td>{{trip.trip.description}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<h3 class="table-head">Other Users Travel Plans</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Trip Owner</th>
+							<th>Destination</th>
+							<th>Travel Start Date</th>
+							<th>Travel End Date</th>
+							<th>Do You Want to Join?</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for trip in other_trips %}
+							<tr>
+								<td>{{trip.owner.name}}</td>
+								<td> <a class="route route-destination" href="{% url 'travel:show_trip' id=trip.id %}">{{trip.destination}}</a></td>
+								<td>{{trip.travel_from}}</td>
+								<td>{{trip.travel_to}}</td>
+								<td><a href="{% url 'travel:join' id=trip.id %}" class="route-add-trip">Join Trip?</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<a href="{% url 'travel:show_add' %}" class="route route-add-trip">Add a Trip</a>
+			</main>
+		</div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'login/js/materialize.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'login/js/app.js' %}">
+
+		</script>
+	</body>
+</html>

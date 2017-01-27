@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Travel Time</title>
+		{% load staticfiles %}
+		<link rel="stylesheet" href="{%static 'login/css/materialize.css' %}">
+		<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	</head>
+	<body>
+		<div id="container">
+			<header class="teal-border border-bottom">
+				<h1>Trip Tumult!</h1>
+				<div id="session-section">
+					{% if 'id' in request.session %}
+					<span id="greeting" class="">Welcome, {{request.session.first_name}}</span>
+					<a class="session-button" href="{% url 'travel:index' %}">Home</a>
+					<a class="session-button" href="{% url 'login:logout' %}">Logout</a>
+					{% else %}
+					<span id="greeting" class="">Welcome! Please feel free to </span>
+					<a href="#login-modal" class="session-button">Login</a>
+					<a href="#register-modal" class="session-button">Register</a>
+					{% endif %}
+				</div>
+			</header>
+			<main>
+				<section class="trip-page-section trip-info">
+					<h3>{{trip.destination}}</h3>
+					<div class="data">
+						<p>Planned By: {{trip.owner.name}}</p>
+						<p>Description:  {{trip.description}}</p>
+						<p>Travel Date From: {{trip.travel_from}}</p>
+						<p>Travel Date To: {{trip.travel_to}}</p
+					</div>
+				</section>
+				<section class="trip-page-section trip-user-info">
+					<h3>Other users joining the trip</h3>
+					{% for trip in trip_attendees %}
+					<div class="data">
+						<p class="attendee">{{trip.attendee.name}}</p>
+					</div>
+					{% endfor %}
+				</section>
+			</main>
+		</div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'login/js/materialize.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'login/js/app.js' %}"></script>
+	</body>
+</html>
