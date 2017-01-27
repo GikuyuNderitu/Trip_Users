@@ -6,13 +6,16 @@ from ..login.models import User
 
 # Create your views here.
 def index(request):
+	user_trips = User_Trip.objects.filter(attendee_id=request.session['id'])
+	other_trips = Trip.objects.exclude(owner_id=request.session['id'])
+	for trip in user_trips:
+		other_trips = other_trips.exclude(id=trip.trip.id)
+
 	context = {
-		'other_trips': Trip.objects.exclude(owner=request.session['id']),
-		'user_trips': User_Trip.objects.filter(attendee=request.session['id'])
+		'other_trips': other_trips,
+		'user_trips': user_trips
 	}
 
-	for trip in context['user_trips']:
-		print trip.trip.destination
 	return render(request, 'travels/index.html', context)
 
 
