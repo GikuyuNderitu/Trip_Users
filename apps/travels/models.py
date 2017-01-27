@@ -59,6 +59,7 @@ class TripManager(models.Manager):
 			return (False, errors)
 
 		trip = Trip.objects.create(destination=destination, description=description, owner=user, travel_from=travel_from, travel_to=travel_to)
+		User_Trip.objects.create(attendee=user, trip=trip)
 
 		message = 'Created trip to '+ destination + '!'
 		return (True, message)
